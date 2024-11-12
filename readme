@@ -1,0 +1,3 @@
+cd ./dmbs_speedesales
+
+source virt/Scripts/activate
