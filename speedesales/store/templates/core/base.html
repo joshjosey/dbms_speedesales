@@ -12,6 +12,15 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
+<!-- Set the background image -->
+<style>
+    body {
+      background-image: url("{% static 'images/banner_cart.jpg' %}");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+</style>
 <body class="d-flex flex-column min-vh-100">
     <!-- Bootstrap JS bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
@@ -36,7 +45,7 @@
     {% endblock %}
     </main>
     <!--Website Footer-->
-    <footer class="footer text-bg-info text-center mt-5 py-2">
+    <footer class="footer text-white text-bg-info text-center mt-5 py-2">
         Thanks for visiting our shop!
     </footer>
 </body>

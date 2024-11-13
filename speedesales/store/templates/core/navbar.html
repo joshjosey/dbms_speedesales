@@ -44,9 +44,9 @@
                             Products
                         </a>
                         <ul class="dropdown-menu mt-lg-2 text-bg-warning rounded-top-0">
-                            <li><a class="dropdown-item" href="#">Clothing</a></li>
-                            <li><a class="dropdown-item" href="#">Food</a></li>
-                            <li><a class="dropdown-item" href="{% url 'tech' %}">Techonology</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Clothing' %}">Clothing</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Food' %}">Food</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Technology' %}">Techonology</a></li>
                         </ul>
                     </li>
                 </h5>

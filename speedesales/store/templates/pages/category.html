@@ -1,20 +1,21 @@
 {% extends 'core/base.html' %}
 {% block content %}
-{% include 'core/category_carousel.html' %}
-<!--Featured Products-->
-<h1 class="text-center text-white mt-5">Featured Products</h1>
-<div id="featrued-products" class="container align-items-c mt-5">
+<h1 class="text-center text-white mt-5">
+    {{category}}
+</h1>
+<div id="products-{{category}}" class="container align-items-c mt-5">
     <!--Product Card-->
     {% for product in products %}
-        {% if product.featured %}
             <div class="row mt-5 align-items-center justify-content-center">
                 <!--Product Image-->
                 <img src="{{product.image.url}}" class="col-12 col-md-6 rounded-5" alt="A photo of {{product.name}}">
                 <!--Product Data-->
                 <div class="card col-12 col-md-6" >
+                    {% if product.featured %}
                     <div class="badge bg-info text-white position-absolute" style="top: 3rem; right: 0.75rem">
                         Featured Product
                     </div>
+                    {% endif %}
                     <!--Product Data-->
                     <div class="row card-body">
                         <h5 class="text-start col-12 col-md-8 card-title">{{product.name}}</h5>
@@ -44,7 +45,7 @@
                     </form>
                 </div>
             </div>
-        {% endif %}
+
     {% endfor %}
 </div>
 {% endblock %}
