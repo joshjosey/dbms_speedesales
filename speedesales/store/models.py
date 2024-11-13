@@ -8,7 +8,8 @@ class Category(models.Model): #product categories
     
     def __str__(self):
         return self.name
-
+    class Meta:
+        verbose_name_plural = 'Categories'
 class Customer(models.Model): #customer data
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=50)
@@ -29,6 +30,9 @@ class Product(models.Model): #product data
     description = models.TextField(default="",blank=True, null=True)
     image = models.ImageField(upload_to='uploads/product/', default='placeholder.jpg')
     
+    #featured items
+    featured = models.BooleanField(default="False")
+
     def __str__(self):
         return self.name
 

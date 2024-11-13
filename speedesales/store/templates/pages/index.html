@@ -1,1 +1,98 @@
-<h1>Init</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Speed-E-Sales</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/icon.png' %}"/>
+    <!-- Halfmoon CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.2/css/halfmoon.min.css" rel="stylesheet" integrity="sha256-RjeFzczeuZHCyS+Gvz+kleETzBF/o84ZRHukze/yv6o=" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+    <!-- Bootstrap JS bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
+    <!-- Custom JS page -->
+    <script type = "text/javascript" src="{% static 'scripts/functions.js' %}"></script>
+
+
+    <!--Product Carousel-->
+    <div id="carousel-products" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/banner_food.jpg' %}" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption">
+                    <a href="#"><button type="button" class="btn btn-default text-bg-primary">Shop Food</button></a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/banner_clothes.jpg' %}" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption">
+                    <a href="#"><button type="button" class="btn btn-default text-bg-primary">Shop Clothing</button></a>
+                </div>  
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/banner_tech.jpg' %}" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption">
+                    <a href="#"><button type="button" class="btn btn-default text-bg-primary">Shop Tech</button></a>
+                </div>  
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-products" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel-products" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!--Featured Products-->
+    <h1 class="text-center">Featured Products</h1>
+    <div id="featrued-products" class="container align-items-c mt-5">
+        <!--Product Card-->
+        {% for product in products %}
+            {% if product.featured %}
+            <div class="row mt-5 align-items-center justify-content-center">
+                <!--Product Image-->
+                <img src="{{product.image.url}}" class="col-12 col-md-6 rounded-5" alt="A photo of {{product.name}}">
+                <!--Product Data-->
+                <div class="card col-12 col-md-6" >
+                    <div class="badge bg-info text-white position-absolute" style="top: 3rem; right: 0.75rem">
+                        Featured Product
+                    </div>
+                    <!--Product Data-->
+                    <div class="row card-body">
+                        <h5 class="text-start col-12 col-md-8 card-title">{{product.name}}</h5>
+                        <h5 class="text-end col-12 col-md-4 card-title">
+                            <i>${{product.price}}</i>
+                        </h5>
+                        <p class="col-12 card-text">
+                            {{product.description}}
+                        </p>
+
+                    </div>
+                    <!-- Add to Cart form -->
+                    <form>
+                    <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
+                        <label class="form-label" for="quantityInput">Quantity:</label>
+                        <input id="quantityInput" step="1" value="1" min="0" type="number" class="form-control"/>
+                    </div>
+
+                    <button type="button" onclick="addToCart(1)" class="btn btn-default text-bg-warning">Add to Cart</button>
+                    <a href="#"><button type="button" class="btn btn-default text-bg-primary">See Details</button></a>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        <!--Website Footer-->
+<footer class="footer text-bg-info align-text-c">
+    Thanks for visiting our shop!
+</footer>
+</body>
+</html>

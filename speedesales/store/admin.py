@@ -12,8 +12,8 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ('id','phone','email')
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id','name','price','category','description','image')
-    list_filters = ('category',)
+    list_display = ('id','name','price','category','description','image', 'featured')
+    list_filters = ('category', 'featured')
     search_fields = ('id','name','category')
 
 
