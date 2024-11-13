@@ -17,27 +17,30 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <!--Profile Options-->
                 <h5>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Profile
-                        </a>
-                        <ul class="dropdown-menu mt-lg-2 text-bg-warning rounded-top-0">
-                            <li><a class="dropdown-item" href="#">Orders</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            {%if user.is_authenticated %}
-                                <li><a class="dropdown-item" href="{% url 'authentication:logout' %}">Log Out</a></li>                            
-                            {% else %}
-                                <li><a class="dropdown-item" href="{% url 'authentication:login' %}">Log In</a></li>                            
-                            {% endif %}
-                        </ul>
-                    </li>
+                    {%if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu mt-lg-2 text-bg-warning rounded-top-0">
+                                    <li><a class="dropdown-item" href="#">Orders</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'authentication:logout' %}">Log Out</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'authentication:login' %}">Log In</a>
+                        </li>                            
+                    {% endif %}
                 </h5>
                 <h5>
+                <!-- Cart -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Cart<span class="count" id="cart-count"> (0)</span> <!-- Count for cart --></a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'cart' %}">Cart <span class="count" id="cart-count">({{ cart.get_qty }})</span> </a>
                 </li>
                 </h5>
-                <!--Product Types-->
+                <!--Product Categories -->
                 <h5>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

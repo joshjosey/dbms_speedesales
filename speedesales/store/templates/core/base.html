@@ -26,7 +26,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
     <!-- Custom JS page -->
     <script type = "text/javascript" src="{% static 'scripts/functions.js' %}"></script>
-
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!--Navbar-->
     {% include 'core/navbar.html'%}
 
@@ -40,7 +41,7 @@
         {% endfor %}
     {% endif %}
     <!--Unique Page HTML-->
-    <main class="flex-grow-1">
+    <main class="container-fluid flex-grow-1 bg-black bg-opacity-50">
     {% block content %}
     {% endblock %}
     </main>

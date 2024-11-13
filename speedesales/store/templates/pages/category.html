@@ -29,9 +29,10 @@
                     </div>
                     <!-- Add to Cart form -->
                     <form>
+                        <!-- Quantity Form -->
                         <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
                             <label class="form-label" for="quantityInput">Quantity:</label>
-                            <input id="quantityInput" step="1" value="1" min="0" type="number" class="form-control"/>
+                            <input id="qty-{{product.id}}" step="1" value="1" min="0" type="number" class="form-control"/>
                         </div>
                         <!-- Other form-->
                         <div data-mdb-input-init class="form-outline" style="width:em;  padding:15px;">
@@ -39,13 +40,47 @@
                             <input id="otherInput" step="1" value="1" min="0" type="number" class="form-control"/>
                         </div>
                         <div class="card-body">
-                            <button type="button" onclick="addToCart(1)" class="btn btn-default text-bg-warning">Add to Cart</button>
+                            <!-- Add to cart-->
+                            <button type="button" id="add-{{product.id}}" value="{{product.id}}" class="btn btn-default text-bg-warning">
+                                Add to Cart
+                            </button>
                             <a href="#"><button type="button" class="btn btn-default text-bg-primary">See Details</button></a>
                         </div>
                     </form>
                 </div>
             </div>
 
+            <!-- js to deal with button -->
+            <script>
+                //look for button
+                $(document).on('click','#add-{{product.id}}', function(inp){
+                    inp.preventDefault();
+                    console.log( $('#qty-{{product.id}}').val())
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'add_to_cart' %}",
+                        data: {
+                            id: $('#add-{{product.id}}').val(),
+                            qty:  $('#qty-{{product.id}}').val(),
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            action: 'post'
+                        },
+                        
+                        success: function(json){
+                            console.log('Added: ',$('#add-{{product.id}}').val())
+                            document.getElementById('cart-count').textContent = '(' + json.qty + ')'
+                        },
+
+                        error: function(){
+                            console.log("Error adding to cart")
+                        }
+                    })
+
+
+                });
+
+
+            </script>
     {% endfor %}
 </div>
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1 class="text-center text-white mt-5 m-3 border rounded p-5">
+    Cart
+</h1>
+<div class="row m-3">
+    <div id="cart-products" class="col-6 col-lg-8">
+        <h1 class="text-center text-white mt-3">
+            Items
+        </h1>
+        <div class="container align-items-c mt-5">
+            <!--Product Card-->
+            {% for product in items_in_cart %}
+                    <div class="row mt-5 align-items-center justify-content-center">
+                        <!--Product Image-->
+                        <img src="{{product.image.url}}" class="img-fluid col-12 col-md-6 col-lg-4 rounded-5" alt="A photo of {{product.name}}">
+                        <!--Product Data-->
+                        <div class="card col-12 col-md-6" >
+                            {% if product.featured %}
+                            <div class="badge bg-info text-white position-lg-absolute mt-2 mt-lg-0" style="top: 3rem; right: 0.75rem">
+                                Featured Product
+                            </div>
+                            {% endif %}
+                            <!--Product Data-->
+                            <div class="row card-body">
+                                <h5 class="text-start col-12 col-lg-8 card-title">{{product.name}}</h5>
+                                <h5 class="text-start text-lg-end col-12 col-lg-4 card-title">
+                                    <i>${{product.price}}</i>
+                                </h5>
+                                <p class="col-12 card-text">
+                                    {{product.description}}
+                                </p>
+        
+                            </div>
+                            <!-- Add to Cart form -->
+                            <form>
+                                <!-- Quantity Form -->
+                                <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
+                                    <label class="form-label" for="quantityInput">Quantity:</label>
+                                    <input id="qty-{{product.id}}" step="1" value="1" min="0" type="number" class="form-control"/>
+                                </div>
+                                <!-- Other form-->
+                                <div data-mdb-input-init class="form-outline" style="width:em;  padding:15px;">
+                                    <label class="form-label" for="otherInput">OTHER PARAM:</label>
+                                    <input id="otherInput" step="1" value="1" min="0" type="number" class="form-control"/>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Add to cart-->
+                                    <button type="button" id="add-{{product.id}}" value="{{product.id}}" class="btn btn-default text-bg-warning mt-2 me-2">
+                                        Add to Cart
+                                    </button>
+                                    <a href="#"><button type="button" class="btn btn-default text-bg-primary mt-2 me-2">See Details</button></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="cart-summary" class="col-6 col-lg-4 ps-5 border-start">
+        <h1 class="text-center text-white mt-3">
+            Summary
+        </h1>
+        <div class="row align-items-c mt-3 text-white  rounded bg-black bg-opacity-50 pt-3 pb-3">
+            <div class="row mt-2">
+                <h5 class="col-6 text-start">
+                    Subtotal:
+                </h5>
+                <h5 class="col-6 text-end">
+                    <i>${{subtotal}}</i>
+                </h5>
+            </div>
+            <div class="row mt-2">
+                <h5 class="col-6 text-start">
+                    Estimated Taxes: 
+                </h5>
+                <h5 class="col-6 text-end">
+                    <i>+ ${{taxes}}</i>
+                </h5>
+            </div>
+            <div class="row pt-2 border-top">
+                <h5 class="col-6 text-start">
+                    Total:
+                </h5>
+                <h5 class="col-6 text-end">
+                    <i>${{total}}</i>
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <!-- Add to cart-->
+                <button type="button" id="checkout-cart" class="btn btn-info text-white mt-2 me-2">
+                    Check out
+                </button>
+                <button type="button" id="checkout-cart" class="btn btn-danger mt-2 me-2">
+                    Empty Cart
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
