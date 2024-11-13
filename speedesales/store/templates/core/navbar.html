@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg text-bg-info" style="background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);">
     <div class="container-fluid">
         <!--LOGO-->
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'index' %}">
             <h1 class="text-white">
                 $peed-E-$ales
             </h1>
@@ -22,11 +22,14 @@
                             Profile
                         </a>
                         <ul class="dropdown-menu mt-lg-2 text-bg-warning rounded-top-0">
-                            <li><a class="dropdown-item" href="#">Sign Up</a></li>
-                            <li><a class="dropdown-item" href="#">Login</a></li>
                             <li><a class="dropdown-item" href="#">Orders</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Log out</a></li>                            </ul>
+                            {%if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'authentication:logout' %}">Log Out</a></li>                            
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'authentication:login' %}">Log In</a></li>                            
+                            {% endif %}
+                        </ul>
                     </li>
                 </h5>
                 <h5>
@@ -43,7 +46,7 @@
                         <ul class="dropdown-menu mt-lg-2 text-bg-warning rounded-top-0">
                             <li><a class="dropdown-item" href="#">Clothing</a></li>
                             <li><a class="dropdown-item" href="#">Food</a></li>
-                            <li><a class="dropdown-item" href="#">Techonology</a></li>
+                            <li><a class="dropdown-item" href="{% url 'tech' %}">Techonology</a></li>
                         </ul>
                     </li>
                 </h5>

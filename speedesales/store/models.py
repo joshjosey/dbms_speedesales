@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 import datetime
-
+from authentication.models import Customer
 # Create your models here.
 class Category(models.Model): #product categories
     name = models.CharField(primary_key=True,max_length=50)
@@ -10,17 +10,6 @@ class Category(models.Model): #product categories
         return self.name
     class Meta:
         verbose_name_plural = 'Categories'
-class Customer(models.Model): #customer data
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    phone = models.CharField(max_length=10)
-    email = models.EmailField(max_length=100)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return f"Customer {self.id}: {self.first_name} {self.last_name}"
 
 class Product(models.Model): #product data
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

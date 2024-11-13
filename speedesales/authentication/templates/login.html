@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <!--Logo-->
+    <img src="{% static 'images/logo.jpg' %}" class="col-6" style="max-width: 400px; max-height: 400px;" alt="Speed e sales logo">
+
+    <!-- Sign in form -->
+    <h3>Log in</h3>
+    <form method="POST" action="{% url 'authentication:login' %}" class="w-100" style="max-width: 400px;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" required placeholder="Enter your username">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required placeholder="Enter your password">
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mb-0">
+                <a href="{% url 'authentication:register' %}">Register User</a>
+            </div>
+            <button type="submit" class="btn btn-primary ms-auto">Sign in</button>
+        </div>
+    </form>
+</div>
+  
+{% endblock %}

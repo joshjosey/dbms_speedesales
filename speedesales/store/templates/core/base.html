@@ -12,7 +12,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Bootstrap JS bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=" crossorigin="anonymous"></script>
     <!-- Custom JS page -->
@@ -21,12 +21,22 @@
     <!--Navbar-->
     {% include 'core/navbar.html'%}
 
+    <!--Handle Messages-->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
     <!--Unique Page HTML-->
+    <main class="flex-grow-1">
     {% block content %}
     {% endblock %}
-
+    </main>
     <!--Website Footer-->
-    <footer class="footer text-bg-info align-text-c">
+    <footer class="footer text-bg-info text-center mt-5 py-2">
         Thanks for visiting our shop!
     </footer>
 </body>
