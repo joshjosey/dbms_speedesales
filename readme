@@ -1,3 +1,20 @@
+using gitbash
+
 cd ./dmbs_speedesales
 
+python -m venv virt
+
 source virt/Scripts/activate
+
+pip install django
+
+speedesales/speedesales is the django project base folder
+
+speedesales/store is the store front app
+
+
+to migrate and have updates apply
+
+python manage.py makemigrations
+python manage.py migrate
+
