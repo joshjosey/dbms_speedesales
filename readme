@@ -18,3 +18,5 @@ to migrate and have updates apply
 python manage.py makemigrations
 python manage.py migrate
 
+to run
+python manage.py runserver
