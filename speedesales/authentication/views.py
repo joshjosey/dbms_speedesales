@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UpdateForm, UpdateCustomerForm
+from .models import Customer
 from django import forms
 
 # Create your views here.
@@ -48,3 +49,23 @@ def register_user(request):
             return redirect('authentication:register')
     #if the page is being loaded
     return render(request, 'register.html', {'form': form})
+
+def update_user(request):
+    if request.user.is_authenticated:
+        #get the user table instance
+        cur_user = User.objects.get(id=request.user.id)
+        #get the customer table instance
+        cur_customer = Customer.objects.get(user=cur_user)
+        #get the two forms
+        update_form = UpdateForm(request.POST or None, instance=cur_user)
+        update_customer_form = UpdateCustomerForm(request.POST or None, instance=cur_customer)
+        if update_form.is_valid() and update_customer_form.is_valid():
+            update_form.save()
+            update_customer_form.save()
+            login(request, cur_user)
+            messages.success(request, "Account has been updated")
+            return redirect('index')
+        
+        return render(request, "update.html", {'update_form':update_form,'update_customer_form':update_customer_form,})
+    else:
+        return redirect('authentication:login')

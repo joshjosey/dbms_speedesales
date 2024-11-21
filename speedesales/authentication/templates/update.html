@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center bg-white mt-5 rounded pb-5">
+    <!--Logo-->
+    <img src="{% static 'images/logo.jpg' %}" class="col-6"  style="max-width: 300px; max-height: 300px;" alt="Speed e sales logo">
+
+    <!-- Update form -->
+    <h3>Update User</h3>
+    <form method="POST" action="{% url 'authentication:update' %}" class="w-100" style="max-width: 400px;">
+        {% csrf_token %}
+        {{update_form.as_p}}
+        {{update_customer_form.as_p}}
+        <div class="d-flex align-items-center">
+            <button type="submit" class="btn btn-primary ms-auto">Update</button>
+        </div>
+    </form>
+
+
+</div>
+  
+{% endblock %}

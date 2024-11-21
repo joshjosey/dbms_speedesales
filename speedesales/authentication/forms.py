@@ -1,13 +1,14 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from .models import Customer
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 
 
 class RegistrationForm(UserCreationForm):
-  
+    email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Email Address'}))
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'first_name', 'last_name',)
+        fields = ('username','email', 'password1', 'password2', 'first_name', 'last_name')
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -35,3 +36,49 @@ class RegistrationForm(UserCreationForm):
         self.fields['last_name'].widget.attrs['class'] = 'form-control'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Last Name'
         self.fields['last_name'].label = ''
+
+class UpdateForm(UserChangeForm):
+    password = None
+    class Meta:
+        model = User
+        fields = ('username','email', 'first_name', 'last_name')
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['placeholder'] = 'User Name'
+        self.fields['username'].label = 'User Name'
+        self.fields['username'].help_text = ''
+
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email'
+        self.fields['email'].label = 'Email'
+        self.fields['email'].help_text = ''
+
+        self.fields['first_name'].widget.attrs['class'] = 'form-control'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'First Name'
+        self.fields['first_name'].label = 'First Name'
+        
+        self.fields['last_name'].widget.attrs['class'] = 'form-control'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Last Name'
+        self.fields['last_name'].label = 'Last Name'
+
+
+class UpdateCustomerForm(forms.ModelForm):
+    phone = forms.CharField(label="Phone", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Phone'}),required=False)
+    address = forms.CharField(label="Address", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Address'}), required=False)
+    city = forms.CharField(label="City", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'City'}), required=False)
+    state = forms.CharField(label="State", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'State'}), required=False)
+    zip = forms.CharField(label="Zip", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Zip'}), required=False)
+    country = forms.CharField(label="Country", widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Country'}), required=False)
+
+    class Meta:
+        model = Customer
+        fields = ('phone','address','city','state','zip','country')
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateCustomerForm, self).__init__(*args, **kwargs)
+        self.fields['phone'].widget.attrs['class'] = 'form-control'
+        self.fields['phone'].widget.attrs['placeholder'] = 'Phone'
+        self.fields['phone'].label = 'Phone'

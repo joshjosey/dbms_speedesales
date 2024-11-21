@@ -3,84 +3,117 @@
 {% include 'core/category_carousel.html' %}
 <!--Featured Products-->
 <div class="container">
-<h1 class="text-center text-white mt-5">Featured Products</h1>
-<div id="featrued-products" class="container align-items-c mt-5">
-    <!--Product Card-->
-    {% for product in products %}
-        {% if product.featured %}
-        <div class="row mt-5 align-items-center justify-content-center">
-            <!--Product Image-->
-            <img src="{{product.image.url}}" class="col-12 col-md-6 rounded-5" alt="A photo of {{product.name}}">
-            <!--Product Data-->
-            <div class="card col-12 col-md-6" >
-                {% if product.featured %}
-                <div class="badge bg-info text-white position-absolute" style="top: 3rem; right: 0.75rem">
-                    Featured Product
-                </div>
-                {% endif %}
-                <!--Product Data-->
-                <div class="row card-body">
-                    <h5 class="text-start col-12 col-md-8 card-title">{{product.name}}</h5>
-                    <h5 class="text-end col-12 col-md-4 card-title">
-                        <i>${{product.price}}</i>
-                    </h5>
-                    <p class="col-12 card-text">
-                        {{product.description}}
-                    </p>
+    <h1 class="text-center text-white mt-5">Featured Products</h1>
+    <div id="featrued-products" class="container align-items-c mt-5">
+        <!--Product Card-->
+        {% for product in products %}
+            {% if product.featured %}
+                <div class="row mt-5 align-items-center justify-content-center">
+                    <!--Product Image-->
+                    <img src="{{product.image.url}}" class="col-12 col-md-6 rounded-5" alt="A photo of {{product.name}}">
+                    <!--Product Data-->
+                    <div class="card col-12 col-md-6" >
+                        {% if product.featured %}
+                        <div class="badge bg-info text-white position-absolute" style="top: 3rem; right: 0.75rem">
+                            Featured Product
+                        </div>
+                        {% endif %}
+                        <!--Product Data-->
+                        <div class="row card-body">
+                            <h5 class="text-start col-12 col-md-8 card-title">{{product.name}}</h5>
+                            <h5 class="text-end col-12 col-md-4 card-title">
+                                <i>${{product.price}}</i>
+                            </h5>
+                            <p class="col-12 card-text">
+                                {{product.description}}
+                            </p>
 
+                        </div>
+                        <!-- Add to Cart form -->
+                        <form>
+                            <!-- Quantity Form -->
+                            <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
+                                <label class="form-label" for="quantityInput">Quantity:</label>
+                                <input id="qty-{{product.id}}" step="1" value="1" min="0" type="number" class="form-control"/>
+                            </div>
+                            <!-- Other form-->
+                            <div data-mdb-input-init class="form-outline" style="width:em;  padding:15px;">
+                                <label class="form-label" for="otherInput">OTHER PARAM:</label>
+                                <input id="otherInput" step="1" value="1" min="0" type="number" class="form-control"/>
+                            </div>
+                            <div class="card-body">
+                                <!-- Add to cart-->
+                                <button type="button" value="{{product.id}}" data-index="{{product.id}}"class="btn btn-warning add-to-cart">
+                                    Add to Cart
+                                </button>
+                                <a href="#"><button type="button" class="btn btn-primary">
+                                    See Details
+                                </button></a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <!-- Add to Cart form -->
-                <form>
-                    <!-- Quantity Form -->
-                    <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
-                        <label class="form-label" for="quantityInput">Quantity:</label>
-                        <input id="qty-{{product.id}}" step="1" value="1" min="0" type="number" class="form-control"/>
-                    </div>
-                    <!-- Other form-->
-                    <div data-mdb-input-init class="form-outline" style="width:em;  padding:15px;">
-                        <label class="form-label" for="otherInput">OTHER PARAM:</label>
-                        <input id="otherInput" step="1" value="1" min="0" type="number" class="form-control"/>
-                    </div>
-                    <div class="card-body">
-                        <!-- Add to cart-->
-                        <button type="button" id="add-{{product.id}}" value="{{product.id}}" class="btn btn-default text-bg-warning">
-                            Add to Cart
-                        </button>
-                        <a href="#"><button type="button" class="btn btn-default text-bg-primary">See Details</button></a>
-                    </div>
-                </form>
-            </div>
+            {% endif %}
+        {% endfor %}
+        <div id="cart-badge" class="alert alert-primary alert-dismissible fade" role="alert" style="position: fixed; bottom: 20px; right: 20px; z-index: 1050;">
+            placeholder
         </div>
-
-        <!-- js to deal with button -->
-        <script>
-            //look for button
-            $(document).on('click','#add-{{product.id}}', function(inp){
-                inp.preventDefault();
-                console.log( $('#qty-{{product.id}}').val())
-                $.ajax({
-                    type: 'POST',
-                    url: "{% url 'add_to_cart' %}",
-                    data: {
-                        id: $('#add-{{product.id}}').val(),
-                        qty:  $('#qty-{{product.id}}').val(),
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        action: 'post'
-                    },
-                    
-                    success: function(json){
-                        console.log('Added: ',$('#add-{{product.id}}').val())
-                        document.getElementById('cart-count').textContent = '(' + json.qty + ')'
-                    },
-
-                    error: function(){
-                        console.log("Error adding to cart")
-                    }
-                })
-            });
-        </script>
-        {% endif %}
-    {% endfor %}
+    </div>
 </div>
-</div>
+<!-- js/ajax to deal with button -->
+<script>
+    //show the user status badge
+    $(document).ready(function() {
+        // Automatically hide the alert after 5 seconds
+        setTimeout(function() {
+            $('#user-status-badge').alert('close');
+        }, 5000);
+    });
+    //look for button
+    $(document).on('click','.add-to-cart', function(inp){
+        inp.preventDefault();
+        const productId = $(this).data('index');
+        const qty = $(`#qty-${productId}`).val();
+        console.log( productId)
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'add_to_cart' %}",
+            data: {
+                id: productId,
+                qty:  qty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            
+            success: function(json){
+                console.log('Added: ', productId)
+                document.getElementById('cart-count').textContent = '(' + json.qty + ')'
+
+                //Success badge
+                document.getElementById('cart-badge').textContent = "Item added to cart."
+                $('#cart-badge').addClass('show');
+                $('#cart-badge').addClass('alert-success');
+                // Hide after 5 seconds
+                setTimeout(function () {
+                    $('#cart-badge').removeClass('show');
+                    $('#cart-badge').removeClass('alert-success');
+                }, 5000);
+            },
+
+            error: function(){
+                console.log("Error adding to cart")
+
+                //error badge
+                document.getElementById('cart-badge').textContent = "Unable to add item to cart."
+                $('#cart-badge').addClass('show');
+                $('#cart-badge').addClass('alert-danger');
+                // Hide after 5 seconds
+                setTimeout(function () {
+                    $('#cart-badge').removeClass('show');
+                    $('#cart-badge').removeClass('alert-danger');
+                }, 5000);
+            }
+        });
+    });
+</script>
 {% endblock %}

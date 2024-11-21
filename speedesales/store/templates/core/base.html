@@ -34,9 +34,8 @@
     <!--Handle Messages-->
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div id="msg-badge" class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; bottom: 30px; right: 20px; z-index: 10;">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
     {% endif %}
@@ -50,4 +49,12 @@
         Thanks for visiting our shop!
     </footer>
 </body>
+<script>
+$(document).ready(function() {
+    // Automatically hide the alert after 5 seconds
+    setTimeout(function() {
+        $('#msg-badge').alert('close');  // This will trigger Bootstrap's alert dismiss functionality
+    }, 5000);  // Adjust the time as needed (in milliseconds)
+});
+</script>
 </html>
