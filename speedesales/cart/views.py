@@ -64,10 +64,12 @@ def add_to_cart(request):
 def empty_cart(request):
     #create a cart variable
     cart = Cart(request)
-    for item in cart.get_items:
-        cart.remove(product=item.id)
+    cart.empty()
+    print(cart.get_items)
+    print("HIO")
+    return JsonResponse({'success': True})
 
-    pass
+
 
 def remove_from_cart(request):
     #create a cart variable
@@ -123,18 +125,17 @@ def update_cart(request):
         return response
 
 def checkout(request):
-    # Get cart
+    # Get cart & itmes
     cart = Cart(request)
-    
-    # Get the items in the cart
     items_in_cart = cart.get_items()
     subtotal = cart.get_price()
     taxes = round(subtotal * 0.0825, 2)
     total = round(subtotal + taxes, 2)
     qty = cart.get_qty()
 
-    #get the customer data
-    customer = Customer.objects.get(id=request.user.id)
+    #get the user data and customer/employee data
+    user = User.objects.get(id=request.user.id)
+    customer = Customer.objects.get(user=user)
 
     #get the quantity and total price for each item
     cart_data = []
@@ -143,6 +144,7 @@ def checkout(request):
         product_price = round(float(product.price)*float(product_qty),2)
         cart_data.append((product,product_qty,product_price))  
 
+    #check if the confirmation button was clicked
     if  request.POST.get('action') == 'post':
         #create the order
         order = Order(customer=customer, price=total)
@@ -153,8 +155,11 @@ def checkout(request):
             order_prod = Order_Product(order=order,product=product,quantity=quantity,price=price)
             print(order_prod)
             order_prod.save()
-        
-        return redirect('index')
+
+        #empty the cart and tell the js it was successful
+        messages.success(request,("Checkout successful!"))
+        cart.empty()
+        return JsonResponse({'success': True})
     else:
         # Render the page and send the items and their quantities
         return render(request, "checkout.html", {"cart_data": cart_data,"subtotal": subtotal,"taxes": taxes,"total": total,"qty": qty,})
@@ -163,7 +168,6 @@ def confirm_checkout(request):
     cart = Cart(request)
     print(request)
     if request.user.is_authenticated:
-        
         return redirect('checkout')
     else:
 

@@ -84,6 +84,9 @@ class Cart():
         #print(items_in_cart)
         return items_in_cart
     
+    '''
+    Method to update a product in the cart
+    '''
     def update(self,product,quantity):
          #convert UUID into a string
         product_id = str(product)
@@ -106,6 +109,9 @@ class Cart():
         
         self.session.modified = True
 
+    '''
+    Method to remove an item from the cart
+    '''
     def remove(self, product):
         #convert UUID into a string
         product_id = str(product)
@@ -113,12 +119,17 @@ class Cart():
         #remove the item if it is in the cart
         removedItem = self.cart.pop(product_id, None)
         
-        
-        self.get_items()
+        #self.get_items()
         #self.get_qty()
         #self.get_price()
         self.session.modified = True
         return removedItem
     
-    def confirm(self):
-        pass
+    '''
+    Method to empty cart
+    '''
+    def empty(self):
+        self.cart.clear()
+        self.session.modified = True
+        print("Cart emptied")
+

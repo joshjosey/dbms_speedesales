@@ -4,13 +4,13 @@
     Cart
 </h1>
 <div class="row m-3">
+    <!-- If the cart has items -->
+    {%if cart_data %}
     <div id="cart-products" class="col-6 col-lg-8">
         <h1 class="text-center text-white mt-3">
             Items
         </h1>
         <div class="container align-items-c mt-5">
-            <!--Check if the cart has items -->
-            {%if cart_data %}
             <!-- If the cart has items display them with product cards-->
             {% for product, qty in cart_data %}
                     <div class="row mt-5 align-items-center justify-content-center">
@@ -66,13 +66,7 @@
                             </h1>
                         </div>
                     </div>
-
             {% endfor %}
-            {% else %}
-            <h3 class="text-center text-white mt-3">
-                Your cart is empty
-            </h3>
-            {% endif %}
         </div>
     </div>
     <div id="cart-summary" class="col-6 col-lg-4 ps-5 border-start">
@@ -119,6 +113,11 @@
             placeholder
         </div>
     </div>
+    {% else %}
+    <h3 class="text-center text-white mt-3">
+        Your cart is empty
+    </h3>
+    {% endif %}
 </div>
 
 <!-- js/ajax to deal with button -->
@@ -138,7 +137,6 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
-            
             success: function(json){
                 console.log('Added: ', productId)
                 document.getElementById('cart-count').textContent = '(' + json.qty + ')';
@@ -149,27 +147,20 @@
 
                 //Success badge
                 document.getElementById('cart-badge').textContent = "Updated item: " + productId
-                $('#cart-badge').addClass('show');
-                $('#cart-badge').addClass('alert-warning');
+                $('#cart-badge').addClass('show alert-warning');
                 // Hide after 5 seconds
                 setTimeout(function () {
-                    $('#cart-badge').removeClass('show');
-                    $('#cart-badge').removeClass('alert-warning');
+                    $('#cart-badge').removeClass('show alert-warning');
                 }, 5000);
             },
-
-
             error: function(){
                 console.log("Error updating to cart")
-
                 //error badge
                 document.getElementById('cart-badge').textContent = "Unable to update the cart."
-                $('#cart-badge').addClass('show');
-                $('#cart-badge').addClass('alert-danger');
+                $('#cart-badge').addClass('show alert-danger');
                 // Hide after 5 seconds
                 setTimeout(function () {
-                    $('#cart-badge').removeClass('show');
-                    $('#cart-badge').removeClass('alert-danger');
+                    $('#cart-badge').removeClass('show alert-danger');
                 }, 5000);
             }
         });
@@ -188,23 +179,46 @@
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
-            
             success: function(json){
                 console.log('Removed: ', productId)
                 location.reload();
             },
-
             error: function (xhr, status, error) {
                 console.error('Error:', error);
-
                 //error badge
                 document.getElementById('cart-badge').textContent = "Unable to remove item from the cart."
-                $('#cart-badge').addClass('show');
-                $('#cart-badge').addClass('alert-danger');
+                $('#cart-badge').addClass('show alert-danger');
                 // Hide after 5 seconds
                 setTimeout(function () {
-                    $('#cart-badge').removeClass('show');
-                    $('#cart-badge').removeClass('alert-danger');
+                    $('#cart-badge').removeClass('show alert-danger');
+                }, 5000);
+            }
+        });
+    });
+
+    //deal with removing items to the cart
+    $(document).on('click','#empty-cart', function(inp){
+        inp.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'empty_cart' %}",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+    
+            success: function(json){
+                console.log('Cart Emptied')
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error emptying cart:', error);
+                //error badge
+                document.getElementById('cart-badge').textContent = "Unable to empty the cart."
+                $('#cart-badge').addClass('show alert-danger');
+                // Hide after 5 seconds
+                setTimeout(function () {
+                    $('#cart-badge').removeClass('show alert-danger');
                 }, 5000);
             }
         });

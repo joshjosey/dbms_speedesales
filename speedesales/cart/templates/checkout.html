@@ -27,22 +27,6 @@
                 </h3>
                 {% endif %}
             </div>
-            <!--Check if the cart has items -->
-            {%if shipping_info %}
-            <!-- If the cart has items display them with product cards-->
-            <div class="row bg-white rounded mt-5 align-items-center justify-content-center">
-
-                        <!--Product Data-->
-                        <div class="row mt-3">
-                            <p class="text-center col-4">dfa:fda</p>
-                        </div>
-
-                {% else %}
-                <h3 class="text-center text-white mt-3">
-                    Your shipping is blank
-                </h3>
-                {% endif %}
-            </div>
             <div class="row bg-white rounded mt-5 align-items-center justify-content-center">
                 <div class="row mt-2">
                     <h5 class="col-6 text-start">
@@ -78,6 +62,9 @@
                 </div>
             </div>
         </div>
+        <div id="cart-badge" class="alert alert-primary alert-dismissible fade" role="alert" style="position: fixed; bottom: 30px; right: 20px; z-index: 10;">
+            placeholder
+        </div>
     </div>
 </div>
 
@@ -86,39 +73,26 @@
     //look for button
     $(document).on('click','#confirm', function(inp){
         inp.preventDefault();
-        const productId = $(this).data('index');
-        const qty = $(`#qty-${productId}`).val();
-        console.log( productId)
         $.ajax({
             type: 'POST',
             url: "{% url 'checkout' %}",
             data: {
-                id: productId,
-                qty:  qty,
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             
             success: function(json){
-                console.log('Added: ', productId)
-                document.getElementById('cart-count').textContent = '(' + json.qty + ')'
-
-                //Success badge
-                document.getElementById('cart-badge').textContent = "Item added to cart."
-                $('#cart-badge').addClass('show');
-                $('#cart-badge').addClass('alert-success');
-                // Hide after 5 seconds
-                setTimeout(function () {
-                    $('#cart-badge').removeClass('show');
-                    $('#cart-badge').removeClass('alert-success');
-                }, 5000);
+                // Redirect to index page on success
+                console.log('Checkout successful');
+                window.location.href = "{% url 'index' %}";
             },
 
             error: function(){
+                //
                 console.log("Error adding to cart")
 
                 //error badge
-                document.getElementById('cart-badge').textContent = "Unable to add item to cart."
+                document.getElementById('cart-badge').textContent = "Unable to checkout."
                 $('#cart-badge').addClass('show');
                 $('#cart-badge').addClass('alert-danger');
                 // Hide after 5 seconds
