@@ -48,11 +48,13 @@
                                 </div>
                                 <div class="card-body">
                                     <!-- Add to cart-->
-                                    <button type="button" value="{{product.id}}" data-index="{{product.id}}"class="btn btn-warning update-cart">
+                                    <button type="button" value="{{product.id}}" data-index="{{product.id}}"class="btn btn-warning mt-2 me-2 update-cart">
                                         Update Cart
                                     </button>
-                                    <a href="#"><button type="button" class="btn btn-primary">See Details</button></a>
-                                    <button type="button" value="{{product.id}}" data-index="{{product.id}}"class="btn btn-danger remove-from-cart">
+                                    <a href="#"><button type="button" class="btn btn-primary mt-2 me-2">
+                                        See Details
+                                    </button></a>
+                                    <button type="button" value="{{product.id}}" data-index="{{product.id}}"class="btn btn-danger mt-2 me-2 remove-from-cart">
                                         Remove
                                     </button>
                                 </div>
@@ -105,10 +107,10 @@
 
             <div class="card-body">
                 <!-- Add to cart-->
-                <button type="button" id="checkout-cart" class="btn btn-info text-white mt-2 me-2">
+                <a href="{% url 'checkout' %}"><button type="button" id="checkout-cart" class="btn btn-info text-white mt-2 me-2">
                     Check out
-                </button>
-                <button type="button" id="checkout-cart" class="btn btn-danger mt-2 me-2">
+                </button></a>
+                <button type="button" id="empty-cart" class="btn btn-danger mt-2 me-2">
                     Empty Cart
                 </button>
             </div>

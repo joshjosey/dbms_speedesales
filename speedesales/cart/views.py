@@ -1,6 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .cart import Cart
+from .models import Order, Order_Product
+from django.contrib.auth.models import User
+from authentication.models import Customer
 from store.models import Product
 from django.http import JsonResponse
 
@@ -25,7 +28,6 @@ def view_cart(request):
         "total": total,
         "qty": qty
     })
-
 
 def add_to_cart(request):
     #create a cart variable
@@ -60,6 +62,11 @@ def add_to_cart(request):
         return response
 
 def empty_cart(request):
+    #create a cart variable
+    cart = Cart(request)
+    for item in cart.get_items:
+        cart.remove(product=item.id)
+
     pass
 
 def remove_from_cart(request):
@@ -114,3 +121,51 @@ def update_cart(request):
             'taxes':taxes,
             'total':total})
         return response
+
+def checkout(request):
+    # Get cart
+    cart = Cart(request)
+    
+    # Get the items in the cart
+    items_in_cart = cart.get_items()
+    subtotal = cart.get_price()
+    taxes = round(subtotal * 0.0825, 2)
+    total = round(subtotal + taxes, 2)
+    qty = cart.get_qty()
+
+    #get the customer data
+    customer = Customer.objects.get(id=request.user.id)
+
+    #get the quantity and total price for each item
+    cart_data = []
+    for product in items_in_cart:
+        product_qty = cart.get_item_qty(str(product.id))
+        product_price = round(float(product.price)*float(product_qty),2)
+        cart_data.append((product,product_qty,product_price))  
+
+    if  request.POST.get('action') == 'post':
+        #create the order
+        order = Order(customer=customer, price=total)
+        order.save()
+
+        #attach items to the order
+        for product,quantity,price in cart_data:
+            order_prod = Order_Product(order=order,product=product,quantity=quantity,price=price)
+            print(order_prod)
+            order_prod.save()
+        
+        return redirect('index')
+    else:
+        # Render the page and send the items and their quantities
+        return render(request, "checkout.html", {"cart_data": cart_data,"subtotal": subtotal,"taxes": taxes,"total": total,"qty": qty,})
+
+def confirm_checkout(request):
+    cart = Cart(request)
+    print(request)
+    if request.user.is_authenticated:
+        
+        return redirect('checkout')
+    else:
+
+        return redirect('authentication:login',{"cart"})
+    pass

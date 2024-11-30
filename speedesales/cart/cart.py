@@ -1,4 +1,6 @@
 from store.models import Product
+from .models import Order
+from .models import Order_Product
 
 class Cart():
     def __init__(self, request):
@@ -66,7 +68,7 @@ class Cart():
         for item in self.cart:
             price = price + float(self.cart[item]['total_price'])
             #print(price)
-        return price
+        return round(price,2)
     
     '''
     Method to get all items in the cart
@@ -117,3 +119,6 @@ class Cart():
         #self.get_price()
         self.session.modified = True
         return removedItem
+    
+    def confirm(self):
+        pass

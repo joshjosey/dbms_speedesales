@@ -10,12 +10,12 @@ class Customer(models.Model):
     address = models.CharField(max_length=200,blank=True)
     city = models.CharField(max_length=200,blank=True)
     state = models.CharField(max_length=200,blank=True)
-    zip = models.CharField(max_length=200,blank=True)
+    zip = models.CharField(max_length=20,blank=True)
     country = models.CharField(max_length=200,blank=True)
     current_cart = models.CharField(max_length=500,blank=True)
 
     def __str__(self):
-        return f"Customer {self.user.username}: {self.user.first_name} {self.user.last_name}"
+        return f"{self.user}"
     
 #add customers on signup
 def create_customer(sender, instance, created, **kwargs):

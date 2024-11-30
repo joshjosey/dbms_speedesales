@@ -3,12 +3,12 @@ from .models import Order,Order_Product
 
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','customer','address','date','status')
+    list_display = ('id','customer','date','status')
     list_filters = ('customer','status')
     search_fields = ('id','customer','date')
 
 class Order_Product_Admin(admin.ModelAdmin):
-    list_display = ('order','product','quantity')
+    list_display = ('order','product','quantity','price')
     list_filters = ('order','product')
     search_fields = ('order','product')
 

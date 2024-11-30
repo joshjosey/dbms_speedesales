@@ -54,8 +54,13 @@ def update_user(request):
     if request.user.is_authenticated:
         #get the user table instance
         cur_user = User.objects.get(id=request.user.id)
-        #get the customer table instance
-        cur_customer = Customer.objects.get(user=cur_user)
+        
+        #check if the user is a customer or employee
+        if not cur_user.is_staff:
+            #get the customer table instance
+            cur_customer = Customer.objects.get(user=cur_user)
+        else:
+            cur_customer = cur_user
         #get the two forms
         update_form = UpdateForm(request.POST or None, instance=cur_user)
         update_customer_form = UpdateCustomerForm(request.POST or None, instance=cur_customer)
