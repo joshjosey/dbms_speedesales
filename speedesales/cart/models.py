@@ -13,7 +13,7 @@ class Order(models.Model): #order data
     status = models.BooleanField(default=False)
     
     def __str__(self):
-        return  f"{self.customer}:{self.id}"
+        return  f"{self.id}"
     
 class Order_Product(models.Model): #links the order with the products
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

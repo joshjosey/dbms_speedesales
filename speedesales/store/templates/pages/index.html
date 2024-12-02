@@ -10,7 +10,7 @@
             {% if product.featured %}
                 <div class="row mt-5 align-items-center justify-content-center">
                     <!--Product Image-->
-                    <img src="{{product.image.url}}" class="col-12 col-md-6 rounded-5" alt="A photo of {{product.name}}">
+                    <img src="{{product.image.url}}" class="col-12 col-md-4 rounded-5" alt="A photo of {{product.name}}">
                     <!--Product Data-->
                     <div class="card col-12 col-md-6" >
                         {% if product.featured %}
@@ -35,11 +35,6 @@
                             <div data-mdb-input-init class="form-outline" style="width:em; padding:15px;">
                                 <label class="form-label" for="quantityInput">Quantity:</label>
                                 <input id="qty-{{product.id}}" step="1" value="1" min="0" type="number" class="form-control"/>
-                            </div>
-                            <!-- Other form-->
-                            <div data-mdb-input-init class="form-outline" style="width:em;  padding:15px;">
-                                <label class="form-label" for="otherInput">OTHER PARAM:</label>
-                                <input id="otherInput" step="1" value="1" min="0" type="number" class="form-control"/>
                             </div>
                             <div class="card-body">
                                 <!-- Add to cart-->

@@ -17,6 +17,7 @@ class Product(models.Model): #product data
     price = models.DecimalField(max_digits=10,decimal_places=2, default=0.00)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default='General')
     description = models.TextField(default="",blank=True, null=True)
+    long_description = models.TextField(default="",blank=True, null=True)
     image = models.ImageField(upload_to='uploads/product/', default='placeholder.jpg')
     
     #featured items
